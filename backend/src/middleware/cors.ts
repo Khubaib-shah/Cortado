@@ -3,6 +3,7 @@ import { env } from '../config/env';
 
 const allowedOrigins = [
   env.FRONTEND_URL,
+  'https://cortado-demo.vercel.app',
   'http://localhost:5173',
   'http://localhost:3000',
 ];
