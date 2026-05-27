@@ -1,0 +1,25 @@
+{
+  "name": "CORTADO - Specialty Coffee",
+  "short_name": "CORTADO",
+  "description": "CORTADO is a premium specialty coffee ordering platform designed for a seamless café experience. Order your favorite brews, customize drinks, and enjoy fast checkout with real-time order tracking.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#F5EFE6",
+  "theme_color": "#84B4BE",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "icons": [
+    {
+      "src": "/favicon_io/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/favicon_io/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
