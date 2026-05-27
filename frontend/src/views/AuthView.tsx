@@ -8,6 +8,7 @@ import {
 } from "lucide-react";
 import { motion } from "motion/react";
 import { User } from "../types";
+import { authApi } from "../lib/api";
 
 interface AuthViewProps {
   onSuccess: (user: User) => void;
@@ -53,22 +54,9 @@ export default function AuthView({ onSuccess, onNavigate }: AuthViewProps) {
     setLoading(true);
 
     try {
-      const endpoint = isLogin ? "/api/auth/login" : "/api/auth/register";
-      const body = isLogin
-        ? { email: email.toLowerCase().trim(), password }
-        : { name: name.trim(), email: email.toLowerCase().trim(), password };
-
-      const response = await fetch(endpoint, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.error || "Authentication endpoint failed.");
-      }
+      const data = isLogin 
+        ? await authApi.login({ email: email.toLowerCase().trim(), password })
+        : await authApi.register({ name: name.trim(), email: email.toLowerCase().trim(), password });
 
       // Success, notify parent state
       onSuccess(data.user);

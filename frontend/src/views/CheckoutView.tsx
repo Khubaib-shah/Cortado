@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import { useCartStore } from "../store";
 import { CustomerInfo } from "../types";
+import { ordersApi } from "../lib/api";
 
 interface CheckoutViewProps {
   onNavigate: (view: string, params?: any) => void;
@@ -120,29 +121,17 @@ export default function CheckoutView({
     setSubmitErr(null);
 
     try {
-      const response = await fetch("/api/orders", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          customer: formData,
-          items: items.map((i) => ({
-            productId: i.productId,
-            name: i.name,
-            price: i.price,
-            quantity: i.quantity,
-            image: i.image,
-          })),
-          paymentMethod: "cod",
-        }),
+      const orderData = await ordersApi.create({
+        customer: formData,
+        items: items.map((i) => ({
+          productId: i.productId,
+          name: i.name,
+          price: i.price,
+          quantity: i.quantity,
+          image: i.image,
+        })),
+        paymentMethod: "cod",
       });
-
-      const orderData = await response.json();
-
-      if (!response.ok) {
-        throw new Error(orderData.error || "Review extraction failed.");
-      }
 
       // Success
       clearCart();

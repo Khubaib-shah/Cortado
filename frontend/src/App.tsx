@@ -18,6 +18,7 @@ import AdminView from "./views/AdminView";
 
 import { useToast } from "./hooks/useToast";
 import { Product, User } from "./types";
+import { authApi, productsApi } from "./lib/api";
 
 export default function App() {
   const [currentView, setCurrentView] = useState<string>("home");
@@ -33,16 +34,17 @@ export default function App() {
 
   const bootstrapSessionData = async () => {
     try {
-      const [userRes, prodRes] = await Promise.all([
-        fetch("/api/auth/me"),
-        fetch("/api/products"),
+      const [userRes, prodRes] = await Promise.allSettled([
+        authApi.me(),
+        productsApi.getAll(),
       ]);
-      if (userRes.ok) {
-        const userData = await userRes.json();
-        setCurrentUser(userData.user);
-        console.log(userData);
+      if (userRes.status === "fulfilled") {
+        setCurrentUser(userRes.value.user);
+        console.log(userRes.value);
       }
-      if (prodRes.ok) setProducts(await prodRes.json());
+      if (prodRes.status === "fulfilled") {
+        setProducts(prodRes.value);
+      }
     } catch (err) {
       console.error("Bootstrap failed:", err);
     } finally {
@@ -52,7 +54,7 @@ export default function App() {
 
   const handleLogout = async () => {
     try {
-      await fetch("/api/auth/logout", { method: "POST" });
+      await authApi.logout();
       setCurrentUser(null);
       setCurrentView("home");
       toast.show("Logged out successfully.");
@@ -63,8 +65,8 @@ export default function App() {
 
   const refreshProducts = async () => {
     try {
-      const res = await fetch("/api/products");
-      if (res.ok) setProducts(await res.json());
+      const data = await productsApi.getAll();
+      setProducts(data);
     } catch (err) {
       console.error("Product refresh failed:", err);
     }

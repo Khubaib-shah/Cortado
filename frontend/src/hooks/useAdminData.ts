@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react';
-import { adminApi } from '../lib/api';
+import { adminApi, productsApi } from '../lib/api';
 import { Order } from '../types';
 
 interface AdminStats {
@@ -32,7 +32,7 @@ export function useAdminData() {
       const [ordersData, statsData, productsRes] = await Promise.all([
         adminApi.getOrders(),
         adminApi.getStats(),
-        fetch('/api/products').then(r => r.json()),
+        productsApi.getAll(),
       ]);
 
       setOrders(ordersData);

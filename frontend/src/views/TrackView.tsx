@@ -14,6 +14,7 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { Order } from "../types";
 import { useOrderTracking } from "../hooks/useSocket";
+import { ordersApi } from "../lib/api";
 
 interface TrackViewProps {
   initialOrderId?: string;
@@ -44,15 +45,7 @@ export default function TrackView({ initialOrderId }: TrackViewProps) {
     setOrder(null);
 
     try {
-      const response = await fetch(
-        `/api/orders/track?orderId=${encodeURIComponent(searchId.trim())}`,
-      );
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.error || "Tracking request failed.");
-      }
-
+      const data = await ordersApi.track(searchId.trim());
       setOrder(data);
     } catch (err: any) {
       console.error(err);
