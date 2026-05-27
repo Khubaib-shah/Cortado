@@ -19,47 +19,47 @@ interface TrackViewProps {
   initialOrderId?: string;
 }
 
-export default function TrackView({ initialOrderId }: TrackViewProps) {\r
-  const [orderId, setOrderId] = useState(initialOrderId || "");\r
-  const [loading, setLoading] = useState(false);\r
-  const [order, setOrder] = useState<Order | null>(null);\r
-  const [errorMsg, setErrorMsg] = useState<string | null>(null);\r
-\r
-  // Socket.IO: live status updates when admin changes order status\r
-  useOrderTracking(order?.orderId || null, (data) => {\r
-    setOrder(prev => prev ? { ...prev, status: data.status, updatedAt: data.updatedAt } : prev);\r
-  });\r
-\r
-  useEffect(() => {\r
-    if (initialOrderId) {\r
-      handleTrack(initialOrderId);\r
-    }\r
-  }, [initialOrderId]);\r
-\r
-  const handleTrack = async (searchId: string) => {\r
-    if (!searchId.trim()) return;\r
-\r
-    setLoading(true);\r
-    setErrorMsg(null);\r
-    setOrder(null);\r
-\r
-    try {\r
-      const response = await fetch(\r
-        `/api/orders/track?orderId=${encodeURIComponent(searchId.trim())}`,\r
-      );\r
-      const data = await response.json();\r
-\r
-      if (!response.ok) {\r
-        throw new Error(data.error || "Tracking request failed.");\r
-      }\r
-\r
-      setOrder(data);\r
-    } catch (err: any) {\r
-      console.error(err);\r
-      setErrorMsg(err.message || "No order found with that tracking code.");\r
-    } finally {\r
-      setLoading(false);\r
-    }\r
+export default function TrackView({ initialOrderId }: TrackViewProps) {
+  const [orderId, setOrderId] = useState(initialOrderId || "");
+  const [loading, setLoading] = useState(false);
+  const [order, setOrder] = useState<Order | null>(null);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
+
+  // Socket.IO: live status updates when admin changes order status
+  useOrderTracking(order?.orderId || null, (data) => {
+    setOrder(prev => prev ? { ...prev, status: data.status, updatedAt: data.updatedAt } : prev);
+  });
+
+  useEffect(() => {
+    if (initialOrderId) {
+      handleTrack(initialOrderId);
+    }
+  }, [initialOrderId]);
+
+  const handleTrack = async (searchId: string) => {
+    if (!searchId.trim()) return;
+
+    setLoading(true);
+    setErrorMsg(null);
+    setOrder(null);
+
+    try {
+      const response = await fetch(
+        `/api/orders/track?orderId=${encodeURIComponent(searchId.trim())}`,
+      );
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Tracking request failed.");
+      }
+
+      setOrder(data);
+    } catch (err: any) {
+      console.error(err);
+      setErrorMsg(err.message || "No order found with that tracking code.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   const stepsList: {
@@ -68,31 +68,31 @@ export default function TrackView({ initialOrderId }: TrackViewProps) {\r
     details: string;
     color: string;
   }[] = [
-    {
-      status: "pending",
-      label: "Received",
-      details: "Order queued in our roasting queue.",
-      color: "amber",
-    },
-    {
-      status: "preparing",
-      label: "Preparing",
-      details: "Baristas are actively drawing espresso.",
-      color: "blue",
-    },
-    {
-      status: "ready",
-      label: "Ready",
-      details: "Freshly boxed, waiting for dispatch.",
-      color: "orange",
-    },
-    {
-      status: "completed",
-      label: "Completed",
-      details: "Safely delivered. Enjoy your craft.",
-      color: "green",
-    },
-  ];
+      {
+        status: "pending",
+        label: "Received",
+        details: "Order queued in our roasting queue.",
+        color: "amber",
+      },
+      {
+        status: "preparing",
+        label: "Preparing",
+        details: "Baristas are actively drawing espresso.",
+        color: "blue",
+      },
+      {
+        status: "ready",
+        label: "Ready",
+        details: "Freshly boxed, waiting for dispatch.",
+        color: "orange",
+      },
+      {
+        status: "completed",
+        label: "Completed",
+        details: "Safely delivered. Enjoy your craft.",
+        color: "green",
+      },
+    ];
 
   // Helper index to check completed status
   const getStepIndex = (status: Order["status"]) => {
@@ -176,11 +176,10 @@ export default function TrackView({ initialOrderId }: TrackViewProps) {\r
           <button
             onClick={() => handleTrack(orderId)}
             disabled={loading || !orderId.trim()}
-            className={`font-sans text-[11px] tracking-[2px] uppercase sm:px-8 py-3.5 rounded-xl font-semibold hover:scale-101 active:scale-97 transition-all flex items-center justify-center gap-2 ${
-              loading || !orderId.trim()
-                ? "bg-surface text-charcoal/30 cursor-not-allowed border border-surface/50"
-                : "bg-primary text-white cursor-pointer hover:opacity-92"
-            }`}
+            className={`font-sans text-[11px] tracking-[2px] uppercase sm:px-8 py-3.5 rounded-xl font-semibold hover:scale-101 active:scale-97 transition-all flex items-center justify-center gap-2 ${loading || !orderId.trim()
+              ? "bg-surface text-charcoal/30 cursor-not-allowed border border-surface/50"
+              : "bg-primary text-white cursor-pointer hover:opacity-92"
+              }`}
           >
             {loading ? (
               <>
@@ -242,13 +241,12 @@ export default function TrackView({ initialOrderId }: TrackViewProps) {\r
                       >
                         {/* Node circle wrapper */}
                         <div
-                          className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-500 shadow-sm ${
-                            isCompleted
-                              ? "bg-primary border-2 border-primary/20 text-white"
-                              : isActive
-                                ? "bg-primary/10 border-2 border-primary ring-4 ring-primary/15"
-                                : "bg-white border-2 border-surface text-charcoal/30"
-                          }`}
+                          className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-500 shadow-sm ${isCompleted
+                            ? "bg-primary border-2 border-primary/20 text-white"
+                            : isActive
+                              ? "bg-primary/10 border-2 border-primary ring-4 ring-primary/15"
+                              : "bg-white border-2 border-surface text-charcoal/30"
+                            }`}
                         >
                           {statusIcons(step.status, idx)}
                         </div>
@@ -256,13 +254,12 @@ export default function TrackView({ initialOrderId }: TrackViewProps) {\r
                         {/* Text descriptions */}
                         <div className="text-left md:text-center mt-1">
                           <h4
-                            className={`font-sans text-[11px] tracking-[2.5px] uppercase font-semibold transition-colors duration-500 ${
-                              isActive
-                                ? "text-primary"
-                                : isUpcoming
-                                  ? "text-charcoal/30"
-                                  : "text-charcoal"
-                            }`}
+                            className={`font-sans text-[11px] tracking-[2.5px] uppercase font-semibold transition-colors duration-500 ${isActive
+                              ? "text-primary"
+                              : isUpcoming
+                                ? "text-charcoal/30"
+                                : "text-charcoal"
+                              }`}
                           >
                             {step.label}
                           </h4>

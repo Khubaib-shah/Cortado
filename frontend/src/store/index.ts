@@ -1,8 +1,3 @@
-/**
- * @license
- * SPDX-License-Identifier: Apache-2.0
- */
-
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { CartItem, Product } from '../types';
@@ -21,7 +16,7 @@ export const useCartStore = create<CartState>()(
   persist(
     (set, get) => ({
       items: [],
-      
+
       addItem: (product, quantity) => {
         set((state) => {
           const existingItem = state.items.find((item) => item.productId === product.id);

@@ -1,3 +1,5 @@
+import React from 'react';
+
 interface StatCardProps {
   value: string | number;
   label: string;
@@ -6,7 +8,7 @@ interface StatCardProps {
   icon: React.ReactNode;
 }
 
-export default function StatCard({ value, label, description, accentClass, icon }: StatCardProps) {
+const StatCard: React.FC<StatCardProps> = ({ value, label, description, accentClass, icon }) => {
   return (
     <div className="bg-white rounded-2xl p-6 shadow-card border border-surface flex items-start justify-between">
       <div>
@@ -26,3 +28,5 @@ export default function StatCard({ value, label, description, accentClass, icon 
     </div>
   );
 }
+
+export default StatCard;
