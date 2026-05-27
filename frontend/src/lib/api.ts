@@ -1,7 +1,10 @@
-const BASE = '';
+const BASE = (import.meta.env.VITE_API_URL || 'http://localhost:3000').replace(/\/$/, '');
 
 async function request<T>(url: string, options?: RequestInit): Promise<T> {
-  const res = await fetch(`${BASE}${url}`, {
+  // Ensure the URL starts with a slash
+  const normalizedUrl = url.startsWith('/') ? url : `/${url}`;
+  
+  const res = await fetch(`${BASE}${normalizedUrl}`, {
     credentials: 'include',
     ...options,
     headers: {

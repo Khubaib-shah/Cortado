@@ -1,8 +1,3 @@
-/**
- * @license
- * SPDX-License-Identifier: Apache-2.0
- */
-
 import React, { useState } from "react";
 import {
   Mail,
@@ -271,11 +266,10 @@ export default function AuthView({ onSuccess, onNavigate }: AuthViewProps) {
             <button
               type="submit"
               disabled={loading}
-              className={`w-full font-sans text-[11px] tracking-[2px] uppercase py-4 rounded-full font-semibold outline-none focus:ring-2 focus:ring-primary/20 hover:scale-[1.01] transition-all flex items-center justify-center gap-2 shadow-md mt-6 ${
-                loading
+              className={`w-full font-sans text-[11px] tracking-[2px] uppercase py-4 rounded-full font-semibold outline-none focus:ring-2 focus:ring-primary/20 hover:scale-[1.01] transition-all flex items-center justify-center gap-2 shadow-md mt-6 ${loading
                   ? "bg-surface text-charcoal/35 cursor-not-allowed border border-surface/30"
                   : "bg-primary text-white cursor-pointer hover:opacity-92"
-              }`}
+                }`}
             >
               {loading ? (
                 <>

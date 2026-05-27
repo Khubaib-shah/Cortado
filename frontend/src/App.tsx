@@ -33,15 +33,16 @@ export default function App() {
 
   const bootstrapSessionData = async () => {
     try {
-      const [prodRes, userRes] = await Promise.all([
-        fetch("/api/products"),
+      const [userRes, prodRes] = await Promise.all([
         fetch("/api/auth/me"),
+        fetch("/api/products"),
       ]);
-      if (prodRes.ok) setProducts(await prodRes.json());
       if (userRes.ok) {
         const userData = await userRes.json();
         setCurrentUser(userData.user);
+        console.log(userData);
       }
+      if (prodRes.ok) setProducts(await prodRes.json());
     } catch (err) {
       console.error("Bootstrap failed:", err);
     } finally {
